@@ -1,18 +1,16 @@
-import time
-import undetected_chromedriver as uc
-from selenium.webdriver.common.by import By
+from seleniumbase import Driver
 from src.selectors.video_selectors import video_selectors
 
 class Video:
-    def __init__(self, action_url, browser: uc.Chrome):
+    def __init__(self, action_url, browser: Driver):
         self.url = "https://youtube.com"
         self.action_url = action_url
         self.browser = browser
 
     def check_auth(self):
-        self.browser.get(self.url)
+        self.browser.open(self.url)
         try:
-            element = self.browser.find_element(By.CSS_SELECTOR, 'a[aria-label="Sign in"]')
+            element = self.browser.find_element('a[aria-label="Sign in"]')
             if element:
                 return False
         except:
@@ -20,145 +18,140 @@ class Video:
         return True
 
     def video_like(self):
-        self.browser.get(self.action_url)
-        time.sleep(1)
-        self.click(video_selectors.like_button)
-        time.sleep(1)
-        self.browser.get(self.url)
+        self.browser.open(self.action_url)
+        self.browser.sleep(1)
+        self.browser.click(video_selectors.like_button)
+        self.browser.sleep(1)
+        self.browser.open(self.url)
 
     def video_comment(self, message):
-        self.browser.get(self.action_url)
-        time.sleep(2)
+        self.browser.open(self.action_url)
+        self.browser.sleep(2)
         self.browser.execute_script("""
         window.scroll({
               top: 500,
               behavior: "smooth",
             });
         """)
-        time.sleep(3)
-        comment_field = self.browser.find_element(By.CSS_SELECTOR, video_selectors.comment_input)
+        self.browser.sleep(3)
+        comment_field = self.browser.find_element(video_selectors.comment_input)
         comment_field.send_keys(message)
-        time.sleep(0.5)
-        self.click(video_selectors.comment_send_button)
-        time.sleep(1)
+        self.browser.sleep(0.5)
+        self.browser.click(video_selectors.comment_send_button)
+        self.browser.sleep(1)
         try:
-            self.click(video_selectors.comment_remember_button)
-            time.sleep(1)
-            self.click(video_selectors.comment_send_button)
-            time.sleep(1)
+            self.browser.click(video_selectors.comment_remember_button)
+            self.browser.sleep(1)
+            self.browser.click(video_selectors.comment_send_button)
+            self.browser.sleep(1)
         except:
             pass
-        self.browser.get(self.url)
+        self.browser.open(self.url)
 
     def video_comment_reply(self, message):
-        self.browser.get(self.action_url)
-        time.sleep(2)
+        self.browser.open(self.action_url)
+        self.browser.sleep(2)
         self.browser.execute_script("""
                 window.scroll({
                       top: 500,
                       behavior: "smooth",
                     });
                 """)
-        time.sleep(3)
-        self.click(video_selectors.comment_reply)
-        time.sleep(0.5)
-        comment_field = self.browser.find_element(By.CSS_SELECTOR, video_selectors.comment_reply_input)
+        self.browser.sleep(3)
+        self.browser.click(video_selectors.comment_reply)
+        self.browser.sleep(0.5)
+        comment_field = self.browser.find_element(video_selectors.comment_reply_input)
         comment_field.send_keys(message)
-        time.sleep(0.5)
-        self.click(video_selectors.comment_reply_send)
-        time.sleep(1)
+        self.browser.sleep(0.5)
+        self.browser.click(video_selectors.comment_reply_send)
+        self.browser.sleep(1)
         try:
-            self.click(video_selectors.comment_remember_button)
-            time.sleep(1)
-            self.click(video_selectors.comment_reply_send)
-            time.sleep(1)
+            self.browser.click(video_selectors.comment_remember_button)
+            self.browser.sleep(1)
+            self.browser.click(video_selectors.comment_reply_send)
+            self.browser.sleep(1)
         except:
             pass
-        self.browser.get(self.url)
+        self.browser.open(self.url)
 
     def comment_like(self):
-        self.browser.get(self.action_url)
-        time.sleep(2)
+        self.browser.open(self.action_url)
+        self.browser.sleep(2)
         self.browser.execute_script("""
                         window.scroll({
                               top: 500,
                               behavior: "smooth",
                             });
                         """)
-        time.sleep(3)
-        self.click(video_selectors.comment_like_btn)
-        time.sleep(1)
-        self.browser.get(self.url)
+        self.browser.sleep(3)
+        self.browser.click(video_selectors.comment_like_btn)
+        self.browser.sleep(1)
+        self.browser.open(self.url)
 
     def shorts_like(self):
-        self.browser.get(self.action_url)
-        time.sleep(1)
-        self.click(video_selectors.shorts_like)
-        time.sleep(1)
-        self.browser.get(self.url)
+        self.browser.open(self.action_url)
+        self.browser.sleep(1)
+        self.browser.click(video_selectors.shorts_like)
+        self.browser.sleep(1)
+        self.browser.open(self.url)
 
     def community_like(self):
-        self.browser.get(self.action_url)
-        time.sleep(2)
-        self.click(video_selectors.community_like_btn)
-        time.sleep(1)
-        self.browser.get(self.url)
+        self.browser.open(self.action_url)
+        self.browser.sleep(2)
+        self.browser.click(video_selectors.community_like_btn)
+        self.browser.sleep(1)
+        self.browser.open(self.url)
 
     def community_comment_like(self):
-        self.browser.get(self.action_url)
-        time.sleep(1)
-        self.click(video_selectors.community_comment_like)
-        time.sleep(1)
-        self.browser.get(self.url)
+        self.browser.open(self.action_url)
+        self.browser.sleep(1)
+        self.browser.click(video_selectors.community_comment_like)
+        self.browser.sleep(1)
+        self.browser.open(self.url)
 
     def community_comment(self, message):
-        self.browser.get(self.action_url)
-        time.sleep(2)
-        comment_field = self.browser.find_element(By.CSS_SELECTOR, video_selectors.community_comment_btn)
+        self.browser.open(self.action_url)
+        self.browser.sleep(2)
+        comment_field = self.browser.find_element(video_selectors.community_comment_btn)
         comment_field.send_keys(message)
-        time.sleep(0.5)
-        self.click(video_selectors.community_comment_send)
-        time.sleep(2)
+        self.browser.sleep(0.5)
+        self.browser.click(video_selectors.community_comment_send)
+        self.browser.sleep(2)
         try:
-            self.click(video_selectors.comment_remember_button)
-            time.sleep(1)
-            self.click(video_selectors.community_comment_send)
-            time.sleep(1)
+            self.browser.click(video_selectors.comment_remember_button)
+            self.browser.sleep(1)
+            self.browser.click(video_selectors.community_comment_send)
+            self.browser.sleep(1)
         except:
             pass
-        self.browser.get(self.url)
+        self.browser.open(self.url)
 
     def community_comment_reply(self, message):
-        self.browser.get(self.action_url)
-        time.sleep(2)
-        self.click(video_selectors.community_comment_reply_btn)
-        time.sleep(0.5)
-        comment_field = self.browser.find_element(By.CSS_SELECTOR, video_selectors.community_comment_reply_input)
+        self.browser.open(self.action_url)
+        self.browser.sleep(2)
+        self.browser.click(video_selectors.community_comment_reply_btn)
+        self.browser.sleep(0.5)
+        comment_field = self.browser.find_element(video_selectors.community_comment_reply_input)
         comment_field.send_keys(message)
-        time.sleep(0.5)
-        self.click(video_selectors.community_comment_send)
-        time.sleep(2)
+        self.browser.sleep(0.5)
+        self.browser.click(video_selectors.community_comment_send)
+        self.browser.sleep(2)
         try:
-            self.click(video_selectors.comment_remember_button)
-            time.sleep(1)
-            self.click(video_selectors.community_comment_send)
-            time.sleep(2)
+            self.browser.click(video_selectors.comment_remember_button)
+            self.browser.sleep(1)
+            self.browser.click(video_selectors.community_comment_send)
+            self.browser.sleep(2)
         except:
             pass
-        self.browser.get(self.url)
+        self.browser.open(self.url)
 
     def community_vote(self, option):
         selector = f"tp-yt-paper-listbox a#sign-in:nth-child(n+{option})"
-        self.browser.get(self.action_url)
-        time.sleep(2)
-        self.click(selector)
-        time.sleep(1)
-        self.browser.get(self.url)
-
-
-    def click(self, selector):
-        element = self.browser.find_element(By.CSS_SELECTOR, selector)
-        element.click()
+        self.browser.open(self.action_url)
+        self.browser.sleep(2)
+        self.browser.click(selector)
+        self.browser.sleep(1)
+        self.browser.open(self.url)
 
     def close(self):
         self.browser.close()

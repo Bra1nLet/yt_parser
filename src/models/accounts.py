@@ -3,8 +3,8 @@ import shutil
 from typing import Optional, List
 from bson import ObjectId
 from pydantic import BaseModel, Field
-from src.anty.actions.login import Login
-from src.anty.browser.browser import Browser
+from src.anty.actions.seleniumbase_login import Login
+from src.anty.browser.seleniumbase_browser import Browser
 from src.anty.actions.video import Video
 from src.config import PATH_TO_PROFILES
 from src.db.db import account_collection, proxy_collection
@@ -30,12 +30,15 @@ class Account(BaseModel):
         created = account_collection.insert_one(self.model_dump())
         self.id = str(created.inserted_id)
         p = Proxy.model_validate(proxy)
-        browser = Browser(self.id, p).get_browser()
-        login = Login(browser, self.mail, self.password, self.recovery_mail)
+        driver = Browser(self.id, p).get_browser()
+        login = Login(driver, self.mail, self.password, self.recovery_mail)
         result = login.login()
         if not result:
             account_collection.update_one({"_id": ObjectId(self.id)}, {"$set": {"broken": True}})
-        browser.close()
+        try:
+            driver.close()
+        except:
+            pass
 
     def video_like(self, url):
         video = self.get_video(url)

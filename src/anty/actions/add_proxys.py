@@ -30,5 +30,3 @@ def validate_proxy(proxy: Proxy):
         return False
     except ConnectTimeout:
         return False
-
-validate_proxy(Proxy(host="147.78.183.208", port="1085", scheme="socks5", country="China"))
